@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>装窑排位</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <div>
+        <p class="eyebrow">窑位 · 温度 · 釉料 · 结算</p>
+        <h1>装窑排位</h1>
+        <p class="subtitle">先看同窑温差，再查近位互相影响；滴釉坯只放下层，锁炉后不能再占窑位。</p>
+      </div>
+      <div id="statusPills" class="status-pills" aria-live="polite"></div>
+    </header>
+
+    <main class="layout">
+      <div class="main-column">
+        <section id="riskCard" class="card risk-card" aria-labelledby="riskTitle"></section>
+
+        <section class="card kiln-card">
+          <div class="card-header">
+            <div>
+              <p class="section-kicker">Kiln Map</p>
+              <h2 id="kilnTitle">窑位</h2>
+            </div>
+            <div id="kilnActions" class="button-row"></div>
+          </div>
+          <div id="layerList" class="layer-list"></div>
+        </section>
+
+        <section class="card waiting-card">
+          <div class="card-header">
+            <div>
+              <p class="section-kicker">Waiting Ware</p>
+              <h2>待烧坯体</h2>
+            </div>
+          </div>
+
+          <form id="addWareForm" class="add-ware-form">
+            <label>
+              坯体名称
+              <input name="name" required maxlength="30" placeholder="如：青釉梅瓶">
+            </label>
+            <label>
+              窑主/作者
+              <input name="owner" required maxlength="20" placeholder="如：阿禾">
+            </label>
+            <label class="temp-field">
+              目标温度 ℃
+              <input name="temp" type="number" required min="500" max="1500" step="1" placeholder="1280">
+            </label>
+            <label class="checkbox-field">
+              <input name="drip" type="checkbox">
+              <span>釉料会滴</span>
+            </label>
+            <button type="submit" class="primary">加入待烧</button>
+          </form>
+
+          <div id="waitingList" class="waiting-list"></div>
+        </section>
+      </div>
+
+      <aside class="side-column">
+        <section id="settingsCard" class="card"></section>
+        <section id="ownersCard" class="card"></section>
+        <section id="historyCard" class="card"></section>
+      </aside>
+    </main>
+  </div>
+
+  <div id="firingModal" class="hidden" role="dialog" aria-modal="true" aria-labelledby="firingModalTitle">
+    <div class="modal-backdrop" data-action="close-firing"></div>
+    <div class="modal-panel">
+      <header>
+        <div>
+          <p class="section-kicker">Firing Record</p>
+          <h2 id="firingModalTitle">开炉结算</h2>
+        </div>
+        <button type="button" class="icon-button" data-action="close-firing" aria-label="关闭">×</button>
+      </header>
+      <div id="firingContent"></div>
+      <footer class="modal-actions">
+        <button type="button" data-action="close-firing">取消</button>
+        <button type="button" class="primary" data-action="save-firing">保存烧窑记录并清窑</button>
+      </footer>
+    </div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
